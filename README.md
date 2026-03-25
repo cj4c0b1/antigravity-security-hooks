@@ -4,7 +4,9 @@
 
 This project provides 7 layers of defense to prevent AI agents (like Claude Code or Antigravity) from exfiltrating your secrets (SSH keys, cloud credentials, etc.) when they encounter malicious instructions.
 
-This is a standalone port and expansion of the original [claude-code-security-hooks](https://github.com/slavaspitsyn/claude-code-security-hooks) project, optimized for Antigravity and multi-environment support.
+This project provides 7 layers of defense to prevent AI agents (like Antigravity Code or Antigravity) from exfiltrating your secrets (SSH keys, cloud credentials, etc.) when they encounter malicious instructions.
+
+This is a standalone port and expansion of the original [antigravity-code-security-hooks](https://github.com/slavaspitsyn/claude-code-security-hooks) project, optimized for Antigravity and multi-environment support.
 
 ## Supported Environments
 

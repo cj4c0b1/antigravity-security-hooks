@@ -4,7 +4,7 @@
 
 set -e
 
-HOOKS_DIR="$HOME/.claude/hooks"
+HOOKS_DIR="$HOME/.antigravity/hooks"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "╔══════════════════════════════════════════════╗"
@@ -54,7 +54,7 @@ fi
 echo ""
 
 # --- Step 3: Show settings.json config ---
-echo "→ Step 3: Add hooks to your ~/.claude/settings.json"
+echo "→ Step 3: Add hooks to your ~/.antigravity/settings.json"
 echo ""
 echo "  Copy the following into your settings.json under \"hooks\":"
 echo ""
@@ -67,7 +67,7 @@ cat << 'SETTINGS_JSON'
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/security-guard.sh"
+            "command": "$HOME/.antigravity/hooks/security-guard.sh"
           }
         ]
       },
@@ -76,7 +76,7 @@ cat << 'SETTINGS_JSON'
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/read-guard.sh"
+            "command": "$HOME/.antigravity/hooks/read-guard.sh"
           }
         ]
       },
@@ -85,7 +85,7 @@ cat << 'SETTINGS_JSON'
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/hooks/bash-read-guard.sh"
+            "command": "$HOME/.antigravity/hooks/bash-read-guard.sh"
           }
         ]
       },
@@ -94,7 +94,7 @@ cat << 'SETTINGS_JSON'
         "hooks": [
           {
             "type": "command",
-            "command": "INPUT=$(cat -); FILE=$(echo \"$INPUT\" | jq -r '.tool_input.file_path // empty' 2>/dev/null); if echo \"$FILE\" | grep -qiE '\\.(claude/(settings|hooks))'; then echo 'BLOCKED: Cannot modify security hooks or settings via Edit tool.' >&2; exit 2; fi"
+            "command": "INPUT=$(cat -); FILE=$(echo \"$INPUT\" | jq -r '.tool_input.file_path // empty' 2>/dev/null); if echo \"$FILE\" | grep -qiE '\\.(antigravity/(settings|hooks))'; then echo 'BLOCKED: Cannot modify security hooks or settings via Edit tool.' >&2; exit 2; fi"
           }
         ]
       }
@@ -108,7 +108,7 @@ echo ""
 echo "→ Step 4: Auditing your permissions..."
 echo ""
 
-SETTINGS_FILE="$HOME/.claude/settings.json"
+SETTINGS_FILE="$HOME/.antigravity/settings.json"
 if [ -f "$SETTINGS_FILE" ]; then
     DANGEROUS=$(grep -oE '"Bash\((curl|wget|ssh|scp|nc|netcat|rsync) \*\)"' "$SETTINGS_FILE" 2>/dev/null || true)
     if [ -n "$DANGEROUS" ]; then
@@ -136,5 +136,5 @@ echo "  Hook scripts: $HOOKS_DIR/"
 echo "  Canary files: placed in credential directories"
 echo ""
 echo "  ⚠ Don't forget to add the hooks JSON to your"
-echo "    ~/.claude/settings.json (Step 3 above)"
+echo "    ~/.antigravity/settings.json (Step 3 above)"
 echo "═══════════════════════════════════════════════"

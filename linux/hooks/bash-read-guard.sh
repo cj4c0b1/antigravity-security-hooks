@@ -6,6 +6,9 @@
 
 INPUT=$(cat -)
 CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+if [ -z "$CMD" ] && [ -n "$INPUT" ]; then
+    CMD=$(echo "$INPUT" | python3 -c "import sys, json; print(json.load(sys.stdin).get('tool_input', {}).get('command', ''))" 2>/dev/null)
+fi
 
 [ -z "$CMD" ] && exit 0
 
@@ -13,7 +16,7 @@ CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
 SENSITIVE='(\.ssh/|\.aws/credentials|\.config/gcloud/(application_default|credentials\.db|access_tokens)|\.kube/config|\.netrc|\.docker/config\.json|\.npmrc|\.yarnrc|\.gnupg/private-keys|\.tfstate|service[-_.]account.*\.json)'
 
 # Block commands that read sensitive files
-if echo "$CMD" | grep -qiE "(cat|less|more|head|tail|bat|xxd|base64|od|strings|cp|mv|tee|dd|tar|zip)\s.*$SENSITIVE"; then
+if echo "$CMD" | grep -qiE "(cat|less|more|head|tail|bat|xxd|base64|od|strings|cp|mv|tee|dd|tar|zip|ls|stat)\s.*$SENSITIVE"; then
     echo "BLOCKED: Command attempts to read/copy sensitive credential files." >&2
     exit 2
 fi
