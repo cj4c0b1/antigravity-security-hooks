@@ -13,7 +13,7 @@ function Assert-Block {
     param($hookScript, $inputJson, $description)
     Write-Host -NoNewline "Test: $description ... "
     
-    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "'$inputJson'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput nul -RedirectStandardError nul
+    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "'$inputJson'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput "test_out.log" -RedirectStandardError "test_err.log"
     
     if ($process.ExitCode -eq 2) {
         Write-Host "PASS (Blocked)" -ForegroundColor Green
@@ -28,7 +28,7 @@ function Assert-Allow {
     param($hookScript, $inputJson, $description)
     Write-Host -NoNewline "Test: $description ... "
     
-    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "'$inputJson'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput nul -RedirectStandardError nul
+    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "'$inputJson'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput "test_out.log" -RedirectStandardError "test_err.log"
     
     if ($process.ExitCode -eq 0) {
         Write-Host "PASS (Allowed)" -ForegroundColor Green
@@ -61,7 +61,7 @@ Write-Host "`nTesting read-guard.ps1 (Read tool simulation)..."
 function Assert-Read-Block {
     param($hookScript, $filePath, $description)
     Write-Host -NoNewline "Test: $description ... "
-    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "-Path", "'$filePath'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput nul -RedirectStandardError nul
+    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "-Path", "'$filePath'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput "test_out.log" -RedirectStandardError "test_err.log"
     if ($process.ExitCode -eq 2) {
         Write-Host "PASS (Blocked)" -ForegroundColor Green
         $script:passCount++
@@ -77,7 +77,7 @@ Assert-Read-Block $HOOK_R "C:\Users\runner\Documents\normal.txt" "Read normal fi
 function Assert-Read-Allow {
     param($hookScript, $filePath, $description)
     Write-Host -NoNewline "Test: $description ... "
-    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "-Path", "'$filePath'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput nul -RedirectStandardError nul
+    $process = Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass", "-File", $hookScript, "-Path", "'$filePath'" -PassThru -NoNewWindow -Wait -RedirectStandardOutput "test_out.log" -RedirectStandardError "test_err.log"
     if ($process.ExitCode -eq 0) {
         Write-Host "PASS (Allowed)" -ForegroundColor Green
         $script:passCount++
