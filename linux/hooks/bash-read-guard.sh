@@ -13,7 +13,7 @@ fi
 [ -z "$CMD" ] && exit 0
 
 # Sensitive path patterns
-SENSITIVE='(\.ssh/|\.aws/credentials|\.config/gcloud/(application_default|credentials\.db|access_tokens)|\.kube/config|\.netrc|\.docker/config\.json|\.npmrc|\.yarnrc|\.gnupg/private-keys|\.tfstate|service[-_.]account.*\.json)'
+SENSITIVE='(\.ssh/|\.aws/credentials|\.config/gcloud/(application_default|credentials\.db|access_tokens)|\.kube/config|\.netrc|\.docker/config\.json|\.npmrc|\.yarnrc|\.gnupg/private-keys|\.tfstate|service[-_.]account.*\.json|\.azure/|\.oci/|\.config/gh/|\.git-credentials|\.vault-token|\.pulumi/|\.terraform\.d/|\.config/doctl/)'
 
 # Block commands that read sensitive files
 if echo "$CMD" | grep -qiE "(cat|less|more|head|tail|bat|xxd|base64|od|strings|cp|mv|tee|dd|tar|zip|ls|stat)\s.*$SENSITIVE"; then

@@ -90,6 +90,7 @@ function Assert-Read-Allow {
 Assert-Read-Allow $HOOK_R "C:\test.txt" "Read normal file"
 Assert-Read-Block $HOOK_R "$HOME\.ssh\id_rsa" "Read SSH key"
 Assert-Read-Block $HOOK_R "$HOME\.antigravity\settings" "Read Antigravity settings"
+Assert-Read-Block $HOOK_R "$HOME\.docker\config.json" "Read Docker config"
 
 Write-Host "`n--------------------------------------------------" -ForegroundColor Cyan
 Write-Host "Tests completed: $($passCount + $failCount)" -ForegroundColor Cyan

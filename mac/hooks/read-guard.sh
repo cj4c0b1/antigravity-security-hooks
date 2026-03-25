@@ -71,5 +71,10 @@ if echo "$FILE" | grep -qiE '\.tfstate'; then
     echo "BLOCKED: Reading Terraform state is forbidden (contains secrets in plain text)." >&2
     exit 2
 fi
+# Block other cloud providers and DevOps tools
+if echo "$FILE" | grep -qiE '(\.azure/|\.oci/|\.config/gh/|\.git-credentials|\.vault-token|\.pulumi/|\.terraform\.d/|\.config/doctl/)'; then
+    echo "BLOCKED: Reading cloud provider or DevOps tool credentials is forbidden." >&2
+    exit 2
+fi
 
 exit 0

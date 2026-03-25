@@ -8,7 +8,7 @@ param(
 )
 
 # --- SENSITIVE PATHS ---
-$BLOCKED_PATTERNS = '(\.ssh[\\/].*|\.config[\\/]gcloud[\\/].*|\.aws[\\/]credentials|\.aws[\\/]config|\.claude[\\/]settings|\.env|\.netrc|application_default_credentials|service\.account\.json|credentials\.json|secret.*\.json|\.kube[\\/]config|\.npmrc|\.yarnrc|\.gnupg[\\/]private-keys.*|\.tfstate|\.antigravity[\\/](settings|hooks))'
+$BLOCKED_PATTERNS = '(\.ssh[\\/].*|\.config[\\/]gcloud[\\/].*|\.aws[\\/]credentials|\.aws[\\/]config|\.antigravity[\\/]settings|\.env|\.netrc|application_default_credentials|service\.account\.json|credentials\.json|secret.*\.json|\.kube[\\/]config|\.npmrc|\.yarnrc|\.gnupg[\\/]private-keys.*|\.tfstate|\.antigravity[\\/](settings|hooks)|\.azure[\\/].*|\.oci[\\/].*|\.docker[\\/]config\.json|\.config[\\/]gh[\\/].*|\.git-credentials|\.vault-token|\.pulumi[\\/].*|\.terraform\.d[\\/].*|\.config[\\/]doctl[\\/].*)'
 
 if ($Path -match $BLOCKED_PATTERNS) {
     Write-Host "BLOCKED: Reading sensitive file: $Path" -ForegroundColor Red

@@ -72,6 +72,7 @@ echo "Testing read-guard.sh (Read tool)..."
 assert_allow "$HOOK_R" '{"tool_input": {"file_path": "README.md"}}' "Read README.md"
 assert_block "$HOOK_R" "{\"tool_input\": {\"file_path\": \"$HOME/.ssh/id_rsa\"}}" "Read SSH key"
 assert_block "$HOOK_R" "{\"tool_input\": {\"file_path\": \"$HOME/.aws/credentials\"}}" "Read AWS credentials"
+assert_block "$HOOK_R" "{\"tool_input\": {\"file_path\": \"$HOME/.docker/config.json\"}}" "Read Docker config"
 
 # --- 3. bash-read-guard.sh tests ---
 HOOK_BR="$HOOKS_DIR/bash-read-guard.sh"
