@@ -46,6 +46,18 @@ jobs:
           cd $PLATFORM_DIR
           chmod +x test_hooks.sh
           ./test_hooks.sh
+          
+      - name: Run Gemini tests (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          cd gemini
+          chmod +x install.sh
+          ./install.sh
+          # Re-use the linux/mac test script (same logic)
+          cd ..
+          PLATFORM_DIR=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$PLATFORM_DIR" = "macos" ]; then PLATFORM_DIR="mac"; fi
+          ./$PLATFORM_DIR/test_hooks.sh
 
       # Windows setup
       - name: Run installer (Windows)
@@ -62,3 +74,12 @@ jobs:
         run: |
           cd windows
           ./test_hooks.ps1
+          
+      - name: Run Gemini tests (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cd gemini
+          ./install.ps1
+          cd ..
+          ./windows/test_hooks.ps1
