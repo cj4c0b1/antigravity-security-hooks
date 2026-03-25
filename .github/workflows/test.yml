@@ -1,0 +1,64 @@
+name: Security Hooks Multi-Platform Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Linux / macOS setup
+      - name: Install jq (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else
+            brew install jq
+          fi
+          
+      - name: Run installer (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          PLATFORM_DIR=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$PLATFORM_DIR" = "macos" ]; then PLATFORM_DIR="mac"; fi
+          cd $PLATFORM_DIR
+          chmod +x install.sh
+          ./install.sh
+          
+      - name: Run tests (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          PLATFORM_DIR=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$PLATFORM_DIR" = "macos" ]; then PLATFORM_DIR="mac"; fi
+          cd $PLATFORM_DIR
+          chmod +x test_hooks.sh
+          ./test_hooks.sh
+
+      # Windows setup
+      - name: Run installer (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cd windows
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          ./install.ps1
+          
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cd windows
+          ./test_hooks.ps1

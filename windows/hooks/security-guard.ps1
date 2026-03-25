@@ -29,7 +29,7 @@ if ([string]::IsNullOrWhiteSpace($CMD)) {
 }
 
 # --- SENSITIVE PATHS ---
-$CRED_PATTERNS = '(\.config[\\/]gcloud|\.ssh[\\/]id_|\.ssh[\\/]known_hosts|\.aws[\\/]credentials|\.aws[\\/]config|\.claude[\\/]settings|\.env|\.netrc|application_default_credentials|service\.account\.json|credentials\.json|secret.*\.json|\.kube[\\/]config)'
+$CRED_PATTERNS = '(\.config[\\/]gcloud|\.ssh[\\/]id_|\.ssh[\\/]known_hosts|\.aws[\\/]credentials|\.aws[\\/]config|\.antigravity[\\/]settings|\.env|\.netrc|application_default_credentials|service\.account\.json|credentials\.json|secret.*\.json|\.kube[\\/]config)'
 
 # --- EXFIL TOOLS ---
 $EXFIL_TOOLS = '\b(curl|wget|nc|ncat|netcat|scp|rsync|ftp|sftp|telnet|Invoke-WebRequest|Invoke-RestMethod|iwr|irm)\b'
