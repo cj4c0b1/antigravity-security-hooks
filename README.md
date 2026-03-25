@@ -35,6 +35,13 @@ chmod +x install.sh
 ./install.sh
 ```
 
+### Antigravity (One-Click)
+If you are using Antigravity, you can deploy the hooks automatically by running:
+```bash
+/deploy
+```
+This will detect your OS and run the appropriate installer.
+
 ## How it Works
 
 The hooks intercept tool calls (`run_command`, `view_file`) and block actions that combine sensitive file access with network operations or encoding. It also includes "Canary" files that trigger a security alert if the AI reads them.
