@@ -1,0 +1,29 @@
+name: MacOS Security Hooks Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: brew install jq
+        
+      - name: Run installer
+        run: |
+          cd mac
+          chmod +x install.sh
+          ./install.sh
+          
+      - name: Run tests
+        run: |
+          cd mac
+          chmod +x test_hooks.sh
+          ./test_hooks.sh

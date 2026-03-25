@@ -5,13 +5,16 @@
 
 INPUT=$(cat -)
 CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+if [ -z "$CMD" ] && [ -n "$INPUT" ]; then
+    CMD=$(echo "$INPUT" | python3 -c "import sys, json; print(json.load(sys.stdin).get('tool_input', {}).get('command', ''))" 2>/dev/null)
+fi
 
 # Skip if no command
 [ -z "$CMD" ] && exit 0
 
 # --- SENSITIVE PATHS ---
 # Add your own credential paths here
-CRED_PATTERNS='(\.config/gcloud|\.ssh/id_|\.ssh/known_hosts|\.aws/credentials|\.aws/config|\.claude/settings|\.env|\.netrc|application_default_credentials|service.account\.json|credentials\.json|secret.*\.json|\.kube/config)'
+CRED_PATTERNS='(\.config/gcloud|\.ssh/id_|\.ssh/known_hosts|\.aws/credentials|\.aws/config|\.antigravity/settings|\.env|\.netrc|application_default_credentials|service.account\.json|credentials\.json|secret.*\.json|\.kube/config)'
 
 # --- EXFIL TOOLS ---
 EXFIL_TOOLS='(curl|wget|nc|ncat|netcat|scp|rsync|ftp|sftp|telnet)'
@@ -59,7 +62,7 @@ if echo "$CMD" | grep -qiE 'cat.*application_default_credentials\.json'; then
 fi
 
 # Rule 7: Block attempts to modify this hook or settings
-if echo "$CMD" | grep -qiE '(sed|awk|perl|tee).*\.(claude/(settings|hooks))'; then
+if echo "$CMD" | grep -qiE '(sed|awk|perl|tee).*\.(antigravity/(settings|hooks))'; then
     echo "BLOCKED: Attempt to modify security hooks or settings." >&2
     exit 2
 fi
