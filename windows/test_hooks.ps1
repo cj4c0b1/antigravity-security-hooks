@@ -75,9 +75,6 @@ function Assert-Read-Block {
     }
 }
 
-Assert-Read-Allow $HOOK_R "C:\Users\runner\Documents\normal.txt" "Read normal file" # Fixed to Allow
-# I need a proper Assert-Read-Allow as well.
-
 function Assert-Read-Allow {
     param($hookScript, $filePath, $description)
     Write-Host -NoNewline "Test: $description ... "
@@ -92,6 +89,8 @@ function Assert-Read-Allow {
         $script:failCount++
     }
 }
+
+Assert-Read-Allow $HOOK_R "C:\Users\runner\Documents\normal.txt" "Read normal file" # Fixed to Allow
 
 Assert-Read-Allow $HOOK_R "C:\test.txt" "Read normal file"
 Assert-Read-Block $HOOK_R "$HOME\.ssh\id_rsa" "Read SSH key"
