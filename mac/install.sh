@@ -30,23 +30,25 @@ echo ""
 # --- Step 2: Place canary files ---
 echo "→ Step 2: Placing canary files..."
 
+CANARY_FILE="$SCRIPT_DIR/../canary/canary.txt"
+
 if [ -d "$HOME/.ssh" ]; then
-    cp "$SCRIPT_DIR/canary/DANGER_ZONE_README.md" "$HOME/.ssh/!!!_DANGER_ZONE_README.md"
+    cp "$CANARY_FILE" "$HOME/.ssh/SECURITY_ALERT.txt"
     echo "  ✓ Canary placed in ~/.ssh/"
 fi
 
 if [ -d "$HOME/.config/gcloud" ]; then
-    cp "$SCRIPT_DIR/canary/DANGER_ZONE_README.md" "$HOME/.config/gcloud/!!!_DANGER_ZONE_README.md"
+    cp "$CANARY_FILE" "$HOME/.config/gcloud/SECURITY_ALERT.txt"
     echo "  ✓ Canary placed in ~/.config/gcloud/"
 fi
 
 if [ -d "$HOME/.aws" ]; then
-    cp "$SCRIPT_DIR/canary/DANGER_ZONE_README.md" "$HOME/.aws/!!!_DANGER_ZONE_README.md"
+    cp "$CANARY_FILE" "$HOME/.aws/SECURITY_ALERT.txt"
     echo "  ✓ Canary placed in ~/.aws/"
 fi
 
 if [ -d "$HOME/.kube" ]; then
-    cp "$SCRIPT_DIR/canary/DANGER_ZONE_README.md" "$HOME/.kube/!!!_DANGER_ZONE_README.md"
+    cp "$CANARY_FILE" "$HOME/.kube/SECURITY_ALERT.txt"
     echo "  ✓ Canary placed in ~/.kube/"
 fi
 echo ""
